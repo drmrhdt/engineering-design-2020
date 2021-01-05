@@ -67,7 +67,7 @@ class Window(models.Model):
 
 class EQueue(models.Model):
     window = models.ForeignKey(Window, on_delete=models.CASCADE)
-    registration_date = models.DateTimeField(auto_now=True, blank=True)
+    registration_date = models.DateField(auto_now=True, blank=True)
     is_priority = models.BooleanField()
     name = models.TextField()
 
@@ -75,7 +75,21 @@ class EQueue(models.Model):
         return f"e-queue {self.window}"
 
 class RequestType(models.Model):
-    name = models.TextField()
+    CONSULTATION = "Консультация"
+    ISSURANCE_OF_DOCUMENTS = "Выдача документов"
+    REGISTRATION_OF_THE_APPLICATION = "Регистрация заявления"
+
+    NAME_CHOICES = [
+       (CONSULTATION, 'Consulation'),
+       (ISSURANCE_OF_DOCUMENTS, 'Issurance of documents'),
+       (REGISTRATION_OF_THE_APPLICATION, 'Registration of application')
+    ]
+
+    name = models.CharField(
+       max_length = 30,
+       choices=NAME_CHOICES,
+       default=CONSULTATION
+    )
 
     def __str__(self):
         return f"{self.name}"
@@ -106,32 +120,32 @@ class NotificationType(models.Model):
 
 class City(models.Model):
     name = models.TextField()
-    code = models.TextField()
+    code = models.IntegerField()
 
     def __str__(self):
         return f"{self.name}"
 
 class Passport(models.Model):
-    series = models.TextField()
-    number = models.TextField()
+    series = models.IntegerField()
+    number = models.IntegerField()
     issued_by = models.TextField()
-    issue_date = models.TextField()
-    division_code = models.TextField()
+    issue_date = models.DateField()
+    division_code = models.IntegerField()
     scan_url = models.TextField()
 
     def __str__(self):
         return f"{self.series} {self.number}"
 
 class Snils(models.Model):
-    insurance_number = models.TextField()
-    registration_date = models.TextField()
+    insurance_number = models.IntegerField()
+    registration_date = models.DateField()
 
     def __str__(self):
         return f"{self.insurance_number}"
 
 class Inn(models.Model):
-    number = models.TextField()
-    assignment_date = models.TextField()
+    number = models.IntegerField()
+    assignment_date = models.DateField()
 
     def __str__(self):
         return f"{self.number}"
@@ -143,14 +157,14 @@ class User(models.Model):
     last_name = models.TextField()
     first_name = models.TextField()
     patronyc = models.TextField()
-    birthday = models.TextField()
+    birthday = models.DateField()
     place_of_birth =  models.ForeignKey(City, on_delete=models.CASCADE)
     gender = models.TextField()
     snils = models.ForeignKey(Snils, on_delete=models.CASCADE)
     inn = models.ForeignKey(Inn, on_delete=models.CASCADE)
     is_special_category = models.BooleanField()
     phone = models.TextField()
-    registration_date = models.TextField()
+    registration_date = models.DateField()
     residence_address = models.TextField()
     role = models.TextField()
 
