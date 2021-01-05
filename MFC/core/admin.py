@@ -1,6 +1,9 @@
 from django.contrib import admin
 
-from core.models import Person, Course, Grade, ServiceCategory, Service, Window, EQueue, Passport, Snils, Inn, User, NotificationType, Citizenship, City, RequestType, RequestStatus, Region
+from import_export import resources
+from import_export.admin import ImportExportModelAdmin
+from core.models import Person, Course, Grade, ServiceCategory, Service, Window, EQueue, Passport, Snils, Inn, User, NotificationType, Citizenship, City, RequestType, RequestStatus, Region, Passport, Snils, Inn
+
 
 @admin.register(Person)
 class PersonAdmin(admin.ModelAdmin):
@@ -14,47 +17,134 @@ class CourseAdmin(admin.ModelAdmin):
 class GradeAdmin(admin.ModelAdmin):
     pass
 
-@admin.register(ServiceCategory)
-class ServiceCategory(admin.ModelAdmin):
-    pass
+class ServiceCategoryResource(resources.ModelResource):
 
-@admin.register(Service)
-class Service(admin.ModelAdmin):
-    pass
+   class Meta:
+       model = ServiceCategory
 
-@admin.register(Window)
-class Window(admin.ModelAdmin):
-    pass
+class ServiceCategoryAdmin(ImportExportModelAdmin):
+   resource_class = ServiceCategoryResource
 
-@admin.register(EQueue)
-class EQueue(admin.ModelAdmin):
-    pass
+class ServiceResource(resources.ModelResource):
 
-@admin.register(User)
-class User(admin.ModelAdmin):
-    pass
+   class Meta:
+       model = Service
 
-@admin.register(NotificationType)
-class NotificationType(admin.ModelAdmin):
-    pass
+class ServiceAdmin(ImportExportModelAdmin):
+   resource_class = ServiceResource
 
-@admin.register(Citizenship)
-class Citizenship(admin.ModelAdmin):
-    pass
+class WindowResource(resources.ModelResource):
 
-@admin.register(City)
-class City(admin.ModelAdmin):
-    pass
+   class Meta:
+       model = Window
 
-@admin.register(RequestType)
-class RequestType(admin.ModelAdmin):
-    pass
+class WindowAdmin(ImportExportModelAdmin):
+   resource_class = WindowResource
 
-@admin.register(RequestStatus)
-class RequestStatus(admin.ModelAdmin):
-    pass
+class EQueueResource(resources.ModelResource):
 
-@admin.register(Region)
-class Region(admin.ModelAdmin):
-    pass
+   class Meta:
+       model = EQueue
 
+class EQueueAdmin(ImportExportModelAdmin):
+   resource_class = EQueueResource
+
+class UserResource(resources.ModelResource):
+
+   class Meta:
+       model = User
+
+class UserAdmin(ImportExportModelAdmin):
+   resource_class = UserResource
+
+   search_fields = ('first_name', 'last_name', 'patronyc')
+
+class NotificationTypeResource(resources.ModelResource):
+
+   class Meta:
+       model = NotificationType
+
+class NotificationTypeAdmin(ImportExportModelAdmin):
+   resource_class = NotificationTypeResource
+
+class CitizenshipResource(resources.ModelResource):
+
+   class Meta:
+       model = Citizenship
+
+class CitizenshipAdmin(ImportExportModelAdmin):
+   resource_class = CitizenshipResource
+
+class CityResource(resources.ModelResource):
+
+   class Meta:
+       model = City
+
+class CityAdmin(ImportExportModelAdmin):
+   resource_class = CityResource
+
+
+class RequestTypeResource(resources.ModelResource):
+
+   class Meta:
+       model = RequestType
+
+class RequestTypeAdmin(ImportExportModelAdmin):
+   resource_class = RequestTypeResource
+
+class RequestStatusResource(resources.ModelResource):
+
+   class Meta:
+       model = RequestStatus
+
+class RequestStatusAdmin(ImportExportModelAdmin):
+   resource_class = RequestStatusResource
+
+class RegionResource(resources.ModelResource):
+
+   class Meta:
+       model = Region
+
+class RegionAdmin(ImportExportModelAdmin):
+   resource_class = RegionResource
+
+
+class PassportResource(resources.ModelResource):
+
+   class Meta:
+       model = Passport
+
+class PassportAdmin(ImportExportModelAdmin):
+   resource_class = PassportResource
+
+
+class SnilsResource(resources.ModelResource):
+
+   class Meta:
+       model = Snils
+
+class SnilsAdmin(ImportExportModelAdmin):
+   resource_class = SnilsResource
+
+class InnResource(resources.ModelResource):
+
+   class Meta:
+       model = Inn
+
+class InnAdmin(ImportExportModelAdmin):
+   resource_class = InnResource
+
+admin.site.register(Inn, InnAdmin)
+admin.site.register(Snils, SnilsAdmin)
+admin.site.register(Passport, PassportAdmin)
+admin.site.register(Region, RegionAdmin)
+admin.site.register(RequestStatus, RequestStatusAdmin)
+admin.site.register(RequestType, RequestTypeAdmin)
+admin.site.register(City, CityAdmin)
+admin.site.register(Citizenship, CitizenshipAdmin)
+admin.site.register(NotificationType, NotificationTypeAdmin)
+admin.site.register(User, UserAdmin)
+admin.site.register(EQueue, EQueueAdmin)
+admin.site.register(Window, WindowAdmin)
+admin.site.register(Service, ServiceAdmin)
+admin.site.register(ServiceCategory, ServiceCategoryAdmin)
