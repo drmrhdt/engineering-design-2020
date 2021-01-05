@@ -1,0 +1,51 @@
+from django.core.validators import MinValueValidator, MaxValueValidator
+from django.db import models
+
+class Person(models.Model):
+    last_name = models.TextField()
+    first_name = models.TextField()
+    courses = models.ManyToManyField("Course", blank=True)
+
+    def __str__(self):
+        return f"{self.last_name}, {self.first_name}"
+
+    class Meta:
+        verbose_name_plural = "People"
+        ordering = ("last_name", "first_name")
+
+class Course(models.Model):
+    name = models.TextField()
+    year = models.IntegerField()
+
+    def __str__(self):
+        return f"{self.name}, {self.year}"
+
+    class Meta:
+        unique_together = ("name", "year", )
+
+class Grade(models.Model):
+    person = mos.ForeignKey(Person, on_delete=models.CASCADE)
+    grade = models.PositiveSmallIntegerField(
+        validators=[MinValueValidator(0), MaxValueValidator(100)])
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.person}, {self.grade}, {self.course}"
+
+class ServiceCategory(models.Model):
+    applicant_type = models.TextField()
+    name = models.TextField()
+    range_of_applicants = models.TextField()
+    grounds_for_refusal_to_provide_the_service: models.TextField()
+    grounds_for_suspending_the_provision_of_the_service = models.TextField()
+    list_of_documents_required_to_provide_the_service = models.TextField()
+    reasons_for_refusing_to_accept_documents = models.TextField()
+    result_of_providing_the_service = models.TextField()
+    url_order = models.TextField()
+    order_name = models.TextField()
+
+    def __str__(self):
+       return f"{self.name}"
+
+class Service(modesl.Model):
+    category_id = 
