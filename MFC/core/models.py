@@ -151,6 +151,20 @@ class Inn(models.Model):
         return f"{self.number}"
 
 class User(models.Model):
+    ADMIN = 'Администратор'
+    USER =  'Пользователь'
+    ROLE_CHOICES = [
+       (ADMIN, 'Администратор'),
+       (USER, 'Пользователь')
+    ]
+
+    MALE = 'Мужской'
+    FEMALE = 'Женский'
+    GENDER_CHOICES = [
+       (MALE, 'Мужской'),
+       (FEMALE, 'Женский')
+    ]
+
     citizenship = models.ForeignKey(Citizenship, on_delete=models.CASCADE)
     passport = models.ForeignKey(Passport, on_delete=models.CASCADE)
     notification_type = models.ForeignKey(NotificationType, on_delete=models.CASCADE)
@@ -159,14 +173,21 @@ class User(models.Model):
     patronyc = models.TextField()
     birthday = models.DateField()
     place_of_birth =  models.ForeignKey(City, on_delete=models.CASCADE)
-    gender = models.TextField()
+    gender = models.CharField(
+       max_length = 30,
+       choices = GENDER_CHOICES,
+       default = MALE)
     snils = models.ForeignKey(Snils, on_delete=models.CASCADE)
     inn = models.ForeignKey(Inn, on_delete=models.CASCADE)
     is_special_category = models.BooleanField()
     phone = models.TextField()
     registration_date = models.DateField()
     residence_address = models.TextField()
-    role = models.TextField()
+    role = models.CharField(
+       max_length = 30,
+       choices = ROLE_CHOICES,
+       default = USER
+    )
 
     def __str__(self):
         return f"{self.last_name} {self.first_name} {self.patronyc}"

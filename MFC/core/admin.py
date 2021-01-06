@@ -57,6 +57,7 @@ class UserResource(resources.ModelResource):
 class UserAdmin(ImportExportModelAdmin):
    resource_class = UserResource
 
+   list_display = ('last_name','first_name', 'patronyc', 'gender', 'birthday', 'is_special_category', 'passport', 'role')
    search_fields = ('first_name', 'last_name', 'patronyc')
 
 class NotificationTypeResource(resources.ModelResource):
