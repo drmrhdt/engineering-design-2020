@@ -117,6 +117,7 @@ class PassportResource(resources.ModelResource):
 class PassportAdmin(ImportExportModelAdmin):
    resource_class = PassportResource
 
+   search_fields = ('number', 'series')
 
 class SnilsResource(resources.ModelResource):
 
@@ -126,6 +127,8 @@ class SnilsResource(resources.ModelResource):
 class SnilsAdmin(ImportExportModelAdmin):
    resource_class = SnilsResource
 
+   search_fields = ('insurance_number', 'registration_date')
+
 class InnResource(resources.ModelResource):
 
    class Meta:
@@ -133,6 +136,8 @@ class InnResource(resources.ModelResource):
 
 class InnAdmin(ImportExportModelAdmin):
    resource_class = InnResource
+
+   search_fields = ('number', 'assignment_date')
 
 admin.site.register(Inn, InnAdmin)
 admin.site.register(Snils, SnilsAdmin)
