@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
-from core.models import Person, Course, Grade, ServiceCategory, Service, Window, EQueue, Passport, Snils, Inn, User, NotificationType, Citizenship, City, RequestType, RequestStatus, Region, Passport, Snils, Inn
+from core.models import Person, Course, Grade, ServiceCategory, Service, Window, EQueue, Passport, Snils, Inn, User, NotificationType, Citizenship, City, RequestType, RequestStatus, Region, Passport, Snils, Inn, Application
 
 
 @admin.register(Person)
@@ -59,6 +59,8 @@ class UserAdmin(ImportExportModelAdmin):
 
    list_display = ('last_name','first_name', 'patronyc', 'gender', 'birthday', 'is_special_category', 'passport', 'role')
    search_fields = ('first_name', 'last_name', 'patronyc')
+   list_filter = ('last_name', 'gender', 'birthday')
+   list_display_links = ('first_name', 'last_name', 'patronyc')
 
 class NotificationTypeResource(resources.ModelResource):
 
@@ -140,6 +142,18 @@ class InnAdmin(ImportExportModelAdmin):
 
    search_fields = ('number', 'assignment_date')
 
+class ApplicationResource(resources.ModelResource):
+
+   class Meta:
+       model = Application
+
+class ApplicationAdmin(ImportExportModelAdmin):
+   resource_class = ApplicationResource
+
+   list_display = ('service','user', 'notification_type', 'status', 'region', 'registration_date')
+   search_fields = ('service', 'user', 'status')
+   list_filter = ('service', 'user', 'status')
+
 admin.site.register(Inn, InnAdmin)
 admin.site.register(Snils, SnilsAdmin)
 admin.site.register(Passport, PassportAdmin)
@@ -154,3 +168,4 @@ admin.site.register(EQueue, EQueueAdmin)
 admin.site.register(Window, WindowAdmin)
 admin.site.register(Service, ServiceAdmin)
 admin.site.register(ServiceCategory, ServiceCategoryAdmin)
+admin.site.register(Application, ApplicationAdmin)

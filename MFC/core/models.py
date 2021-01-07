@@ -191,3 +191,15 @@ class User(models.Model):
 
     def __str__(self):
         return f"{self.last_name} {self.first_name} {self.patronyc}"
+
+class Application(models.Model):
+   service = models.ForeignKey(Service, on_delete=models.CASCADE)
+#   maintenance = models.ForeignKey(EQueue, on_delete=models.CASCADE)
+   user = models.ForeignKey(User, on_delete=models.CASCADE)
+   notification_type = models.ForeignKey(NotificationType, on_delete=models.CASCADE)
+   status = models.ForeignKey(RequestStatus, on_delete=models.CASCADE)
+   region = models.ForeignKey(Region, on_delete=models.CASCADE)
+   registration_date = models.DateField()
+
+   def __str__(self):
+        return f"{self.service} {self.user}"
