@@ -193,11 +193,24 @@ class User(models.Model):
         return f"{self.last_name} {self.first_name} {self.patronyc}"
 
 class Application(models.Model):
+   STATUS_1 = "STATUS_1"
+   STATUS_2 = "STATUS_2"
+   STATUS_3 = "STATUS_3"
+
+   STATUS_CHOICES = [
+       (STATUS_1, 'В обработке'),
+       (STATUS_2, 'Завершено'),
+       (STATUS_3, 'Ошибка')
+    ]
+
    service = models.ForeignKey(Service, on_delete=models.CASCADE)
-#   maintenance = models.ForeignKey(EQueue, on_delete=models.CASCADE)
    user = models.ForeignKey(User, on_delete=models.CASCADE)
    notification_type = models.ForeignKey(NotificationType, on_delete=models.CASCADE)
-   status = models.ForeignKey(RequestStatus, on_delete=models.CASCADE)
+   status = models.CharField(
+       max_length = 30,
+       choices=STATUS_CHOICES,
+       default=STATUS_1
+    )
    region = models.ForeignKey(Region, on_delete=models.CASCADE)
    registration_date = models.DateField()
 

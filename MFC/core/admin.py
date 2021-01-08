@@ -147,12 +147,25 @@ class ApplicationResource(resources.ModelResource):
    class Meta:
        model = Application
 
+
+
 class ApplicationAdmin(ImportExportModelAdmin):
    resource_class = ApplicationResource
+
+   def make_completed(self, request, queryset):
+      updated = queryset.update(status='STATUS_2')
+      self.message_user(request, ngettext(
+            '%d application was successfully marked as completed.',
+            '%d applications were successfully marked as completed.',
+            updated,
+        ) % updated, messages.SUCCESS)
+   make_completed.short_description = "Mark selected applications as completed"
 
    list_display = ('service','user', 'notification_type', 'status', 'region', 'registration_date')
    search_fields = ('service', 'user', 'status')
    list_filter = ('service', 'user', 'status')
+   actions = [make_completed]
+    
 
 admin.site.register(Inn, InnAdmin)
 admin.site.register(Snils, SnilsAdmin)
